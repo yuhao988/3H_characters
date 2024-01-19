@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import Modal from "react-modal"; // Import the Modal component
+import "./App.css";
+import Error from "./Error";
+import Home from "./Home";
+import Character from "./Components/Characters/Characters";
 
 function App() {
+  // Set the app element when the component mounts
+  useEffect(() => {
+    Modal.setAppElement("#root"); // Replace "#root" with your actual root element id
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>A base app that can be used to build new projects or use as testground for packages</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+         <Route path="/characters" element={<Character />} />
+        {/* <Route path="/weapons" element={<Equipment />} />
+        <Route path="/spells" element={<Battle />} />
+        <Route path="/combat_arts" element={<Battle />} />  */}
+        <Route path="/*" element={<Error />} />
+      </Routes>
+      
     </div>
   );
 }
