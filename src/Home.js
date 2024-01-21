@@ -7,10 +7,9 @@ function Home() {
       <header className="App-header">
       <h2>Characters List:</h2>
       <Link to="/characters">Here</Link>
-      {/* <h2>Equipment List:</h2>
-      <Link to="/equipment">Here</Link>
-      <h2>Test battles</h2>
-      <Link to="/battle">Here</Link> */}
+      <h2>Weapons List:</h2>
+      <Link to="/weapons">Here</Link>
+      
         
       </header>
     </div>
