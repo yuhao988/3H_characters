@@ -6,6 +6,7 @@ import Error from "./Error";
 import Home from "./Home";
 import Character from "./Components/Characters/Characters";
 import Weapon from "./Components/Weapons/Weapons";
+import CharacterDetail from "./Components/Characters/CharacterDetails";
 
 function App() {
   // Set the app element when the component mounts
@@ -17,13 +18,15 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
-         <Route path="/characters" element={<Character />} />
-         <Route path="/weapons" element={<Weapon />} />
+        <Route path="/characters" element={<Character />} />
+
+        <Route path="/characters/:characterName" element={<CharacterDetail />} />
+
+        <Route path="/weapons" element={<Weapon />} />
         {/*<Route path="/spells" element={<Battle />} />
         <Route path="/combat_arts" element={<Battle />} />  */}
         <Route path="/*" element={<Error />} />
       </Routes>
-      
     </div>
   );
 }
