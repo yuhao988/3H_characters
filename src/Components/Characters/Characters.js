@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { useCharacter } from "../../CharacterContext";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 export const url_char = `${URL}/characters`;
 
 export default function Character() {
   const [characterList, setCharacterList] = useState("");
+  const { setCharacter } = useCharacter();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -22,10 +26,12 @@ export default function Character() {
     if (!characterList) {
       fetchData();
     }
-  },[characterList]);
-  const onClick = (characterName) => {
-    // Use the `Link` component to navigate to the individual character page
-    window.location.href = `/characters/${characterName}`;
+  }, [characterList]);
+  const onClick = (character) => {
+    // Use the context to set the selected character
+    setCharacter(character);
+    // Navigate to the character details page
+    navigate(`/characters/${character.name}`);
   };
 
   return (
@@ -35,13 +41,14 @@ export default function Character() {
         <div>
           <h2>Protagonist:</h2>
           <div className="char-display">
-            
             <button
               // className="card-img"
               key="Byleth"
               // onMouseOver={() => onHover(card)}
               // onMouseOut={() => onHoverOut()}
-               onClick={() => onClick(characterList[0].name)}
+              onClick={() =>
+                onClick(characterList[0])
+              }
               // onContextMenu={(event) => onRightClick(event, card)}
             >
               <img
@@ -64,7 +71,7 @@ export default function Character() {
                   key={index}
                   // onMouseOver={() => onHover(card)}
                   // onMouseOut={() => onHoverOut()}
-                  onClick={() => onClick(char.name)}
+                  onClick={() => onClick(char)}
                   // onContextMenu={(event) => onRightClick(event, card)}
                 >
                   <img
@@ -88,7 +95,7 @@ export default function Character() {
                   key={index}
                   // onMouseOver={() => onHover(card)}
                   // onMouseOut={() => onHoverOut()}
-                  onClick={() => onClick(char.name)}
+                  onClick={() => onClick(char)}
                   // onContextMenu={(event) => onRightClick(event, card)}
                 >
                   <img
@@ -112,7 +119,7 @@ export default function Character() {
                   key={index}
                   // onMouseOver={() => onHover(card)}
                   // onMouseOut={() => onHoverOut()}
-                  onClick={() => onClick(char.name)}
+                  onClick={() => onClick(char)}
                   // onContextMenu={(event) => onRightClick(event, card)}
                 >
                   <img
