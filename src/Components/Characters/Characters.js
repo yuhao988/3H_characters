@@ -18,6 +18,7 @@ export default function Character() {
         });
 
         const data = await response.json();
+        
         setCharacterList(data);
       } catch (error) {
         console.error("Error: ", error.message);
@@ -31,7 +32,7 @@ export default function Character() {
     // Use the context to set the selected character
     setCharacter(character);
     // Navigate to the character details page
-    navigate(`/characters/${character.name}`);
+    navigate(`/characters/${character.Name}`);
   };
 
   return (
@@ -52,19 +53,19 @@ export default function Character() {
               // onContextMenu={(event) => onRightClick(event, card)}
             >
               <img
-                src={characterList[0].image_link}
+                src={characterList[0].ImageLink}
                 width="100px"
                 height="100px"
                 alt="Byleth"
               />
               <br />
-              {characterList[0].name}
+              {characterList[0].Name}
             </button>
           </div>
           <h2>Black Eagle:</h2>
           <div className="char-display">
             {Object.values(characterList)
-              .filter((char) => char.id >= 27 && char.id <= 34)
+              .filter((char) => char.Affinity==="Black Eagle")
               .map((char, index) => (
                 <button
                   // className="card-img"
@@ -75,20 +76,20 @@ export default function Character() {
                   // onContextMenu={(event) => onRightClick(event, card)}
                 >
                   <img
-                    src={char.image_link}
+                    src={char.ImageLink}
                     width="100px"
                     height="100px"
-                    alt={`${char.name}`}
+                    alt={`${char.Name}`}
                   />
                   <br />
-                  {char.name}
+                  {char.Name}
                 </button>
               ))}
           </div>
           <h2>Blue Lion:</h2>
           <div className="char-display">
             {Object.values(characterList)
-              .filter((char) => char.id >= 35 && char.id <= 42)
+              .filter((char) => char.Affinity==="Blue Lion")
               .map((char, index) => (
                 <button
                   // className="card-img"
@@ -99,20 +100,20 @@ export default function Character() {
                   // onContextMenu={(event) => onRightClick(event, card)}
                 >
                   <img
-                    src={char.image_link}
+                    src={char.ImageLink}
                     width="100px"
                     height="100px"
-                    alt={`${char.name}`}
+                    alt={`${char.Name}`}
                   />
                   <br />
-                  {char.name}
+                  {char.Name}
                 </button>
               ))}
           </div>
           <h2>Golden Deer:</h2>
           <div className="char-display">
             {Object.values(characterList)
-              .filter((char) => char.id >= 43 && char.id <= 50)
+              .filter((char) => char.Affinity==="Golden Deer")
               .map((char, index) => (
                 <button
                   // className="card-img"
@@ -123,13 +124,13 @@ export default function Character() {
                   // onContextMenu={(event) => onRightClick(event, card)}
                 >
                   <img
-                    src={char.image_link}
+                    src={char.ImageLink}
                     width="100px"
                     height="100px"
-                    alt={`${char.name}`}
+                    alt={`${char.Name}`}
                   />
                   <br />
-                  {char.name}
+                  {char.Name}
                 </button>
               ))}
           </div>

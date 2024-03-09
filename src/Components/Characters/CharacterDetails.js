@@ -21,7 +21,7 @@ export default function CharacterDetail() {
 
         // Find the character with the matching name
         const foundCharacter = data.find(
-          (character) => character.name === characterName
+          (character) => character.Name === characterName
         );
 
         if (foundCharacter) {
@@ -39,7 +39,7 @@ export default function CharacterDetail() {
       fetchData();
     }
     if (selectedCharacter) {
-      const baseLevel = parseInt(selectedCharacter.base_lv, 10);
+      const baseLevel = parseInt(selectedCharacter.BaseLv, 10);
       setMinLevel(baseLevel);
     }
   }, [characterName, selectedCharacter, setCharacter]);
@@ -51,24 +51,24 @@ export default function CharacterDetail() {
 
     // Extract relevant data from the selected character
     const {
-      hp,
-      strength,
-      magic,
-      dexterity,
-      speed,
-      luck,
-      defence,
-      resistance,
-      charm,
-      hp_growth,
-      str_growth,
-      mag_growth,
-      dex_growth,
-      spd_growth,
-      lck_growth,
-      def_growth,
-      res_growth,
-      cha_growth,
+      HP,
+      Strength,
+      Magic,
+      Dexterity,
+      Speed,
+      Luck,
+      Defence,
+      Resistance,
+      Charm,
+      HpGrowth,
+      StrGrowth,
+      MagGrowth,
+      DexGrowth,
+      SpdGrowth,
+      LckGrowth,
+      DefGrowth,
+      ResGrowth,
+      ChaGrowth,
     } = selectedCharacter;
 
     // Headers row
@@ -87,42 +87,42 @@ export default function CharacterDetail() {
 
     // Base stats row
     const baseStats = [
-      hp,
-      strength,
-      magic,
-      dexterity,
-      speed,
-      luck,
-      defence,
-      resistance,
-      charm,
+      HP,
+      Strength,
+      Magic,
+      Dexterity,
+      Speed,
+      Luck,
+      Defence,
+      Resistance,
+      Charm,
     ];
     
 
     // Growth row
     const growthStats = [
-      hp_growth,
-      str_growth,
-      mag_growth,
-      dex_growth,
-      spd_growth,
-      lck_growth,
-      def_growth,
-      res_growth,
-      cha_growth,
+      HpGrowth,
+      StrGrowth,
+      MagGrowth,
+      DexGrowth,
+      SpdGrowth,
+      LckGrowth,
+      DefGrowth,
+      ResGrowth,
+      ChaGrowth,
     ];
 
     const lvDiff = targetLevel - minLevel;
     const finalStats = {
-      finalHP: averageResultStat(hp,hp_growth,lvDiff),
-      finalStr: averageResultStat(strength, str_growth, lvDiff),
-      finalMag: averageResultStat(magic, mag_growth, lvDiff),
-      finalDex: averageResultStat(dexterity, dex_growth, lvDiff),
-      finalSpd: averageResultStat(speed, spd_growth, lvDiff),
-      finalLck: averageResultStat(luck, lck_growth, lvDiff),
-      finalDef: averageResultStat(defence, def_growth, lvDiff),
-      finalRes: averageResultStat(resistance, res_growth, lvDiff),
-      finalCha: averageResultStat(charm, cha_growth, lvDiff),
+      finalHP: averageResultStat(HP,HpGrowth,lvDiff),
+      finalStr: averageResultStat(Strength, StrGrowth, lvDiff),
+      finalMag: averageResultStat(Magic, MagGrowth, lvDiff),
+      finalDex: averageResultStat(Dexterity, DexGrowth, lvDiff),
+      finalSpd: averageResultStat(Speed, SpdGrowth, lvDiff),
+      finalLck: averageResultStat(Luck, LckGrowth, lvDiff),
+      finalDef: averageResultStat(Defence, DefGrowth, lvDiff),
+      finalRes: averageResultStat(Resistance, ResGrowth, lvDiff),
+      finalCha: averageResultStat(Charm, ChaGrowth, lvDiff),
     };
 
     return (
@@ -169,7 +169,7 @@ export default function CharacterDetail() {
       {selectedCharacter ? (
         <div>
           <img
-            src={selectedCharacter.image_link}
+            src={selectedCharacter.iMage_link}
             width="150px"
             height="150px"
             alt={`${selectedCharacter.name}`}

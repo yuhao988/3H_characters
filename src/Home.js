@@ -10,6 +10,8 @@ function Home() {
       <Link to="/characters">Here</Link>
       <h2>Weapons List:</h2>
       <Link to="/weapons">Here</Link>
+      <h2>Spells List:</h2>
+      <Link to="/spells">Here</Link>
       
         
       </header>
