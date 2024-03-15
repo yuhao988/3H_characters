@@ -7,7 +7,7 @@ import { averageResultStat } from "../Calculations/StatGrowth";
 export default function CharacterDetail() {
   const { selectedCharacter, setCharacter } = useCharacter();
   const [minLevel, setMinLevel] = useState(1);
-  const [targetLevel, setTargetlevel] = useState(99);
+  const [targetLevel, setTargetLevel] = useState(99);
   const { characterName } = useParams();
 
   useEffect(() => {
@@ -43,6 +43,11 @@ export default function CharacterDetail() {
       setMinLevel(baseLevel);
     }
   }, [characterName, selectedCharacter, setCharacter]);
+
+  // Handler for changing the target level
+  const handleTargetLevelChange = (e) => {
+    setTargetLevel(parseInt(e.target.value, 10)); // Parse the value to integer
+  };
 
   const renderTable = () => {
     if (!selectedCharacter) {
@@ -82,7 +87,7 @@ export default function CharacterDetail() {
       "Defence",
       "Resistance",
       "Charm",
-      "Total"
+      "Total",
     ];
 
     // Base stats row
@@ -97,7 +102,6 @@ export default function CharacterDetail() {
       Resistance,
       Charm,
     ];
-    
 
     // Growth row
     const growthStats = [
@@ -114,7 +118,7 @@ export default function CharacterDetail() {
 
     const lvDiff = targetLevel - minLevel;
     const finalStats = {
-      finalHP: averageResultStat(HP,HpGrowth,lvDiff),
+      finalHP: averageResultStat(HP, HpGrowth, lvDiff),
       finalStr: averageResultStat(Strength, StrGrowth, lvDiff),
       finalMag: averageResultStat(Magic, MagGrowth, lvDiff),
       finalDex: averageResultStat(Dexterity, DexGrowth, lvDiff),
@@ -150,7 +154,18 @@ export default function CharacterDetail() {
               ))}
             </tr>
             <tr>
-              <th>Lv.{targetLevel} Stats:</th>
+              <th>
+                Lv.
+                <select value={targetLevel} onChange={handleTargetLevelChange}>
+                  {/* Render dropdown options from minLevel to 99 */}
+                  {Array.from({ length: 100 - minLevel }, (_, i) => (
+                    <option key={i} value={minLevel + i}>
+                      {minLevel + i}
+                    </option>
+                  ))}
+                </select>{" "}
+                Stats:
+              </th>
               {Object.values(finalStats).map((stat, index) => (
                 <td key={index}>{stat}</td>
               ))}
@@ -164,15 +179,15 @@ export default function CharacterDetail() {
   return (
     <div className="character-detail-container">
       <h1>
-        Character: {selectedCharacter ? selectedCharacter.name : "Unknown"}
+        Character: {selectedCharacter ? selectedCharacter.Name : "Unknown"}
       </h1>
       {selectedCharacter ? (
         <div>
           <img
-            src={selectedCharacter.iMage_link}
+            src={selectedCharacter.ImageLink}
             width="150px"
             height="150px"
-            alt={`${selectedCharacter.name}`}
+            alt={`${selectedCharacter.Name}`}
           />
         </div>
       ) : null}
