@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { displayRange } from "../Calculations/Miscellaneous";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 export const url_spell = `${URL}/spells`;
@@ -44,6 +45,7 @@ export default function Spell() {
     }
   });
   const headers = [
+  
     { key: "Name", label: "Name" },
     { key: "Might", label: "Might" },
     { key: "Hit", label: "Hit" },
@@ -54,6 +56,7 @@ export default function Spell() {
   ];
 
   const headers1 = [
+    
     { key: "Name", label: "Name" },
     { key: "Might", label: "Might" },
     { key: "Hit", label: "Hit" },
@@ -79,7 +82,7 @@ export default function Spell() {
       default:
         break;
     }
-    
+
     if (column === sortedColumn) {
       // If the same column is clicked, reverse the order
       sortedSpells.reverse();
@@ -118,15 +121,7 @@ export default function Spell() {
     }
   };
 
-  const displayRange = (range_min, range_max) => {
-    if (range_min === range_max || range_max === null) {
-      return range_min;
-    } else if (range_max === 0) {
-      return "in description";
-    } else {
-      return range_min + "-" + range_max;
-    }
-  };
+ 
 
   return (
     <div>
@@ -135,6 +130,7 @@ export default function Spell() {
       <table className="stats-table">
         <thead>
           <tr>
+            <th>ID:</th>
             {headers1.map((header, index) => (
               <th key={index}>
                 {header.key !== "Range" ? (
@@ -153,6 +149,7 @@ export default function Spell() {
           <tbody>
             {Object.values(healSpellList).map((spell, index) => (
               <tr key={index}>
+                <td>{spell.ID}</td>
                 <td>{spell.Name}</td>
                 <td>{spell.Might ? spell.Might : "-"}</td>
                 <td>{spell.Hit ? spell.Hit : "-"}</td>
@@ -168,6 +165,7 @@ export default function Spell() {
       <table className="stats-table">
         <thead>
           <tr>
+          <th>ID:</th>
             {headers.map((header, index) => (
               <th key={index}>
                 {header.key !== "Range" ? (
@@ -186,6 +184,7 @@ export default function Spell() {
           <tbody>
             {Object.values(whiteSpellList).map((spell, index) => (
               <tr key={index}>
+                <td>{spell.ID}</td>
                 <td>{spell.Name}</td>
                 <td>{spell.Might}</td>
                 <td>{spell.Hit}</td>
@@ -203,6 +202,7 @@ export default function Spell() {
       <table className="stats-table">
         <thead>
           <tr>
+          <th>ID:</th>
             {headers.map((header, index) => (
               <th key={index}>
                 {header.key !== "Range" ? (
@@ -221,6 +221,7 @@ export default function Spell() {
           <tbody>
             {Object.values(blackSpellList).map((spell, index) => (
               <tr key={index}>
+                <td>{spell.ID}</td>
                 <td>{spell.Name}</td>
                 <td>{spell.Might}</td>
                 <td>{spell.Hit}</td>
@@ -238,6 +239,7 @@ export default function Spell() {
       <table className="stats-table">
         <thead>
           <tr>
+          <th>ID:</th>
             {headers.map((header, index) => (
               <th key={index}>
                 {header.key !== "Range" ? (
@@ -257,6 +259,7 @@ export default function Spell() {
           <tbody>
             {Object.values(darkSpellList).map((spell, index) => (
               <tr key={index}>
+                <td>{spell.ID}</td>
                 <td>{spell.Name}</td>
                 <td>{spell.Might}</td>
                 <td>{spell.Hit}</td>
@@ -270,6 +273,7 @@ export default function Spell() {
           </tbody>
         ) : null}
       </table>
+
       <Link to="/">Back</Link>
     </div>
   );

@@ -59,3 +59,9 @@
   padding: 8px;
   text-align: center;
 }
+
+.backend-db{
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+}
