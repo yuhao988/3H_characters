@@ -23,7 +23,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path = "/db" element={<Database />} />
+          <Route path="/db" element={<Database />} />
           <Route path="/characters" element={<Character />} />
           <Route
             path="/characters/:characterName"
@@ -31,6 +31,7 @@ function App() {
           />
 
           <Route path="/weapons" element={<Weapon />} />
+
           <Route path="/spells" element={<Spell />} />
           <Route path="/combat_arts" element={<CombatArt />} />
           <Route path="/*" element={<Error />} />

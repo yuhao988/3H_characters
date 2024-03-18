@@ -305,7 +305,7 @@ export default function CombatArt() {
         ) : null}
       </table>
 
-      <Link to="/">Back</Link>
+      <Link to="/db">Back</Link>
     </div>
   );
 }

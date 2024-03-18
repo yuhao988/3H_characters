@@ -274,7 +274,7 @@ export default function Spell() {
         ) : null}
       </table>
 
-      <Link to="/">Back</Link>
+      <Link to="/db">Back</Link>
     </div>
   );
 }
