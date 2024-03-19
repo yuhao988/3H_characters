@@ -9,18 +9,18 @@ export default function LanceList(prop) {
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
-    if (!listOfLances) {
+    if (isOpen && !listOfLances) {
       setListOfLances(
         Object.values(weaponList).filter((weapon) => weapon.TypeID === 2)
       );
     }
-  }, [listOfLances, weaponList]);
+  }, [isOpen, weaponList, listOfLances]);
 
   const handleCloseModal = () => {
     onClose();
   };
 
-  const headers = [  
+  const headers = [
     { key: "Name", label: "Name" },
     { key: "Might", label: "Might" },
     { key: "Hit", label: "Hit" },
@@ -32,7 +32,6 @@ export default function LanceList(prop) {
 
   const handleSort = (column) => {
     let sortedWeapons = [...listOfLances];
-    
 
     if (column === sortedColumn) {
       // If the same column is clicked, reverse the order
@@ -54,7 +53,7 @@ export default function LanceList(prop) {
       });
     }
     // Update the state with the sorted weapon list
-   setListOfLances(sortedWeapons)
+    setListOfLances(sortedWeapons);
   };
 
   return (

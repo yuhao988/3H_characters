@@ -9,18 +9,18 @@ export default function SwordList(prop) {
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
-    if (!listOfSwords) {
+    if (isOpen && !listOfSwords) {
       setListOfSwords(
         Object.values(weaponList).filter((weapon) => weapon.TypeID === 1)
       );
     }
-  }, [listOfSwords, weaponList]);
+  }, [isOpen, weaponList, listOfSwords]);
 
   const handleCloseModal = () => {
     onClose();
   };
 
-  const headers = [  
+  const headers = [
     { key: "Name", label: "Name" },
     { key: "Might", label: "Might" },
     { key: "Hit", label: "Hit" },
@@ -32,7 +32,6 @@ export default function SwordList(prop) {
 
   const handleSort = (column) => {
     let sortedWeapons = [...listOfSwords];
-    
 
     if (column === sortedColumn) {
       // If the same column is clicked, reverse the order
@@ -54,7 +53,8 @@ export default function SwordList(prop) {
       });
     }
     // Update the state with the sorted weapon list
-   setListOfSwords(sortedWeapons)
+
+    setListOfSwords(sortedWeapons);
   };
 
   return (

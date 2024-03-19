@@ -134,6 +134,54 @@ export default function Character() {
                 </button>
               ))}
           </div>
+          <h2>Ashen Wolves:</h2>
+          <div className="char-display">
+            {Object.values(characterList)
+              .filter((char) => char.Affinity==="Ashen Wolves")
+              .map((char, index) => (
+                <button
+                  // className="card-img"
+                  key={index}
+                  // onMouseOver={() => onHover(card)}
+                  // onMouseOut={() => onHoverOut()}
+                  onClick={() => onClick(char)}
+                  // onContextMenu={(event) => onRightClick(event, card)}
+                >
+                  <img
+                    src={char.ImageLink}
+                    width="100px"
+                    height="100px"
+                    alt={`${char.Name}`}
+                  />
+                  <br />
+                  {char.Name}
+                </button>
+              ))}
+          </div>
+          <h2>Church of Seiros:</h2>
+          <div className="char-display">
+            {Object.values(characterList)
+              .filter((char) => char.Affinity==="Church of Seiros")
+              .map((char, index) => (
+                <button
+                  // className="card-img"
+                  key={index}
+                  // onMouseOver={() => onHover(card)}
+                  // onMouseOut={() => onHoverOut()}
+                  onClick={() => onClick(char)}
+                  // onContextMenu={(event) => onRightClick(event, card)}
+                >
+                  <img
+                    src={char.ImageLink}
+                    width="100px"
+                    height="100px"
+                    alt={`${char.Name}`}
+                  />
+                  <br />
+                  {char.Name}
+                </button>
+              ))}
+          </div>
         </div>
       ) : null}
       <Link to="/">Back</Link>
