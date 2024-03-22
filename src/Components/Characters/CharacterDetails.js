@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useCharacter } from "../../CharacterContext";
 import { url_char } from "./Characters";
 import { averageResultStat } from "../Calculations/StatGrowth";
+import DamageAnalysis from "./DamagAnalysis";
 
 export default function CharacterDetail() {
   const { selectedCharacter, setCharacter } = useCharacter();
   const [minLevel, setMinLevel] = useState(1);
   const [targetLevel, setTargetLevel] = useState(99);
+  const [isAnalysis, setIsAnalysis] = useState(false);
+  const [finalStats, setFinalStats] = useState(null);
   const { characterName } = useParams();
 
   useEffect(() => {
@@ -19,7 +22,6 @@ export default function CharacterDetail() {
 
         const data = await response.json();
 
-        // Find the character with the matching name
         const foundCharacter = data.find(
           (character) => character.Name === characterName
         );
@@ -34,15 +36,65 @@ export default function CharacterDetail() {
       }
     };
 
-    // Fetch data only if characterName is available and selectedCharacter is not set
     if (characterName && !selectedCharacter) {
       fetchData();
     }
     if (selectedCharacter) {
       const baseLevel = parseInt(selectedCharacter.BaseLv, 10);
       setMinLevel(baseLevel);
+
+      // Calculate finalStats whenever selectedCharacter or targetLevel changes
+      const lvDiff = targetLevel - minLevel;
+      const newFinalStats = {
+        finalHP: averageResultStat(
+          selectedCharacter.HP,
+          selectedCharacter.HpGrowth,
+          lvDiff
+        ),
+        finalStr: averageResultStat(
+          selectedCharacter.Strength,
+          selectedCharacter.StrGrowth,
+          lvDiff
+        ),
+        finalMag: averageResultStat(
+          selectedCharacter.Magic,
+          selectedCharacter.MagGrowth,
+          lvDiff
+        ),
+        finalDex: averageResultStat(
+          selectedCharacter.Dexterity,
+          selectedCharacter.DexGrowth,
+          lvDiff
+        ),
+        finalSpd: averageResultStat(
+          selectedCharacter.Speed,
+          selectedCharacter.SpdGrowth,
+          lvDiff
+        ),
+        finalLck: averageResultStat(
+          selectedCharacter.Luck,
+          selectedCharacter.LckGrowth,
+          lvDiff
+        ),
+        finalDef: averageResultStat(
+          selectedCharacter.Defence,
+          selectedCharacter.DefGrowth,
+          lvDiff
+        ),
+        finalRes: averageResultStat(
+          selectedCharacter.Resistance,
+          selectedCharacter.ResGrowth,
+          lvDiff
+        ),
+        finalCha: averageResultStat(
+          selectedCharacter.Charm,
+          selectedCharacter.ChaGrowth,
+          lvDiff
+        ),
+      };
+      setFinalStats(newFinalStats);
     }
-  }, [characterName, selectedCharacter, setCharacter]);
+  }, [characterName, selectedCharacter, setCharacter, targetLevel, minLevel]);
 
   // Handler for changing the target level
   const handleTargetLevelChange = (e) => {
@@ -129,6 +181,15 @@ export default function CharacterDetail() {
       finalCha: averageResultStat(Charm, ChaGrowth, lvDiff),
     };
 
+    const totalStat = (stats) => {
+      let total = 0;
+      for (const i in stats) {
+        total += stats[i];
+      }
+      total = total.toFixed(1);
+      return total;
+    };
+
     return (
       <div className="table-container">
         <table className="stats-table">
@@ -152,6 +213,7 @@ export default function CharacterDetail() {
               {growthStats.map((stat, index) => (
                 <td key={index}>{stat}%</td>
               ))}
+              <td>{totalStat(growthStats)}</td>
             </tr>
             <tr>
               <th>
@@ -169,11 +231,19 @@ export default function CharacterDetail() {
               {Object.values(finalStats).map((stat, index) => (
                 <td key={index}>{stat}</td>
               ))}
+              <td>{totalStat(finalStats)}</td>
             </tr>
           </tbody>
         </table>
       </div>
     );
+  };
+  const toggleAnalysis = () => {
+    if (isAnalysis) {
+      setIsAnalysis(false);
+    } else {
+      setIsAnalysis(true);
+    }
   };
 
   return (
@@ -192,6 +262,10 @@ export default function CharacterDetail() {
         </div>
       ) : null}
       {renderTable()}
+      {/* {console.log(selectedCharacter.Name)} */}
+      <button onClick={toggleAnalysis}>Go to damage analysis</button>
+
+      {isAnalysis ? <DamageAnalysis charStat={finalStats} /> : null}
 
       <Link to="/characters">Back to characters page</Link>
     </div>

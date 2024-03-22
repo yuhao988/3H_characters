@@ -7,3 +7,8 @@ export function displayRange(range_min, range_max) {
     return range_min + "-" + range_max;
   }
 }
+
+export function fixToInt(num) {
+  num = parseInt(num.toFixed(0));
+  return num;
+}
