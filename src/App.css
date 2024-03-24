@@ -60,8 +60,28 @@
   text-align: center;
 }
 
-.backend-db{
+
+.container {
+  display: flex;
+  background-color: blueviolet;
+ 
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #7fdbe6;
+  padding: 10px;
   position: fixed;
-  left: 10px;
-  bottom: 10px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto; /* Add scrollbar if content exceeds sidebar height */
+}
+
+.main-content {
+  margin-left: 150px; /* Adjust margin to leave space for the sidebar */
+  margin-right: 10px;
+  width: calc(100% - 160px); /* Adjust width to occupy remaining space */
+  min-height: 100vh; /* Make sure main content extends to viewport height */
+  
 }

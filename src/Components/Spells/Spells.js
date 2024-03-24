@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { displayRange } from "../Calculations/Miscellaneous";
 
@@ -45,7 +45,6 @@ export default function Spell() {
     }
   });
   const headers = [
-  
     { key: "Name", label: "Name" },
     { key: "Might", label: "Might" },
     { key: "Hit", label: "Hit" },
@@ -56,7 +55,6 @@ export default function Spell() {
   ];
 
   const headers1 = [
-    
     { key: "Name", label: "Name" },
     { key: "Might", label: "Might" },
     { key: "Hit", label: "Hit" },
@@ -121,160 +119,160 @@ export default function Spell() {
     }
   };
 
- 
-
   return (
-    <div>
-      <h1>Spells list</h1>
-      <h2>White Magic (Non-damage):</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th>ID:</th>
-            {headers1.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Non-damage")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {spellList ? (
-          <tbody>
-            {Object.values(healSpellList).map((spell, index) => (
-              <tr key={index}>
-                <td>{spell.ID}</td>
-                <td>{spell.Name}</td>
-                <td>{spell.Might ? spell.Might : "-"}</td>
-                <td>{spell.Hit ? spell.Hit : "-"}</td>
-                <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
-                <td>{spell.Uses}</td>
-                <td>{spell.Description ? spell.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>White Magic (Damage):</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-          <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "White")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {spellList ? (
-          <tbody>
-            {Object.values(whiteSpellList).map((spell, index) => (
-              <tr key={index}>
-                <td>{spell.ID}</td>
-                <td>{spell.Name}</td>
-                <td>{spell.Might}</td>
-                <td>{spell.Hit}</td>
-                <td>{spell.Critical}</td>
-                <td>{spell.Weight}</td>
-                <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
-                <td>{spell.Uses}</td>
-                <td>{spell.Description ? spell.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>Black Magic:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-          <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Black")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {spellList ? (
-          <tbody>
-            {Object.values(blackSpellList).map((spell, index) => (
-              <tr key={index}>
-                <td>{spell.ID}</td>
-                <td>{spell.Name}</td>
-                <td>{spell.Might}</td>
-                <td>{spell.Hit}</td>
-                <td>{spell.Critical}</td>
-                <td>{spell.Weight}</td>
-                <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
-                <td>{spell.Uses}</td>
-                <td>{spell.Description ? spell.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>Dark Magic:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-          <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Dark")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
+    <div className="container">
+      <div className="main-content">
+        <h1>Spells list</h1>
+        <h2>White Magic (Non-damage):</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers1.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button
+                      onClick={() => handleSort(header.key, "Non-damage")}
+                    >
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {spellList ? (
+            <tbody>
+              {Object.values(healSpellList).map((spell, index) => (
+                <tr key={index}>
+                  <td>{spell.ID}</td>
+                  <td>{spell.Name}</td>
+                  <td>{spell.Might ? spell.Might : "-"}</td>
+                  <td>{spell.Hit ? spell.Hit : "-"}</td>
+                  <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
+                  <td>{spell.Uses}</td>
+                  <td>{spell.Description ? spell.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>White Magic (Damage):</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "White")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {spellList ? (
+            <tbody>
+              {Object.values(whiteSpellList).map((spell, index) => (
+                <tr key={index}>
+                  <td>{spell.ID}</td>
+                  <td>{spell.Name}</td>
+                  <td>{spell.Might}</td>
+                  <td>{spell.Hit}</td>
+                  <td>{spell.Critical}</td>
+                  <td>{spell.Weight}</td>
+                  <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
+                  <td>{spell.Uses}</td>
+                  <td>{spell.Description ? spell.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>Black Magic:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Black")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {spellList ? (
+            <tbody>
+              {Object.values(blackSpellList).map((spell, index) => (
+                <tr key={index}>
+                  <td>{spell.ID}</td>
+                  <td>{spell.Name}</td>
+                  <td>{spell.Might}</td>
+                  <td>{spell.Hit}</td>
+                  <td>{spell.Critical}</td>
+                  <td>{spell.Weight}</td>
+                  <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
+                  <td>{spell.Uses}</td>
+                  <td>{spell.Description ? spell.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>Dark Magic:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Dark")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
 
-            <th>Description</th>
-          </tr>
-        </thead>
-        {spellList ? (
-          <tbody>
-            {Object.values(darkSpellList).map((spell, index) => (
-              <tr key={index}>
-                <td>{spell.ID}</td>
-                <td>{spell.Name}</td>
-                <td>{spell.Might}</td>
-                <td>{spell.Hit}</td>
-                <td>{spell.Critical}</td>
-                <td>{spell.Weight}</td>
-                <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
-                <td>{spell.Uses}</td>
-                <td>{spell.Description ? spell.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-
-      <Link to="/db">Back</Link>
+              <th>Description</th>
+            </tr>
+          </thead>
+          {spellList ? (
+            <tbody>
+              {Object.values(darkSpellList).map((spell, index) => (
+                <tr key={index}>
+                  <td>{spell.ID}</td>
+                  <td>{spell.Name}</td>
+                  <td>{spell.Might}</td>
+                  <td>{spell.Hit}</td>
+                  <td>{spell.Critical}</td>
+                  <td>{spell.Weight}</td>
+                  <td>{displayRange(spell.RangeMin, spell.RangeMax)}</td>
+                  <td>{spell.Uses}</td>
+                  <td>{spell.Description ? spell.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+      </div>
     </div>
   );
 }

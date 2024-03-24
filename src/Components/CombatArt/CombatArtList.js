@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { displayRange } from "../Calculations/Miscellaneous";
 
@@ -122,190 +122,190 @@ export default function CombatArt() {
   };
 
   return (
-    <div>
-      <h1>Combat Arts List:</h1>
-      <h2>Sword Combat Arts:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Sword")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {swordArtList ? (
-          <tbody>
-            {Object.values(swordArtList).map((art, index) => (
-              <tr key={index}>
-                <td>{art.ID}</td>
-                <td>{art.Name}</td>
-                <td>{art.Might}</td>
-                <td>{art.Hit}</td>
-                <td>{art.Critical}</td>
-                <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
-                <td>{art.DurabilityCost}</td>
-                <td>{art.Description ? art.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>Lance Combat Arts:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Lance")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {lanceArtList ? (
-          <tbody>
-            {Object.values(lanceArtList).map((art, index) => (
-              <tr key={index}>
-                <td>{art.ID}</td>
-                <td>{art.Name}</td>
-                <td>{art.Might}</td>
-                <td>{art.Hit}</td>
-                <td>{art.Critical}</td>
-                <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
-                <td>{art.DurabilityCost}</td>
-                <td>{art.Description ? art.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>Axe Combat Arts:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Axe")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {axeArtList ? (
-          <tbody>
-            {Object.values(axeArtList).map((art, index) => (
-              <tr key={index}>
-                <td>{art.ID}</td>
-                <td>{art.Name}</td>
-                <td>{art.Might}</td>
-                <td>{art.Hit}</td>
-                <td>{art.Critical}</td>
-                <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
-                <td>{art.DurabilityCost}</td>
-                <td>{art.Description ? art.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>Bow Combat Arts:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Bow")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {bowArtList ? (
-          <tbody>
-            {Object.values(bowArtList).map((art, index) => (
-              <tr key={index}>
-                <td>{art.ID}</td>
-                <td>{art.Name}</td>
-                <td>{art.Might}</td>
-                <td>{art.Hit}</td>
-                <td>{art.Critical}</td>
-                <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
-                <td>{art.DurabilityCost}</td>
-                <td>{art.Description ? art.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-      <h2>Brawling Combat Arts:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th>ID:</th>
-            {headers.map((header, index) => (
-              <th key={index}>
-                {header.key !== "Range" ? (
-                  <button onClick={() => handleSort(header.key, "Brawl")}>
-                    {header.label}
-                  </button>
-                ) : (
-                  `${header.label}`
-                )}
-              </th>
-            ))}
-            <th>Description</th>
-          </tr>
-        </thead>
-        {brawlArtList ? (
-          <tbody>
-            {Object.values(brawlArtList).map((art, index) => (
-              <tr key={index}>
-                <td>{art.ID}</td>
-                <td>{art.Name}</td>
-                <td>{art.Might}</td>
-                <td>{art.Hit}</td>
-                <td>{art.Critical}</td>
-                <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
-                <td>{art.DurabilityCost}</td>
-                <td>{art.Description ? art.Description : "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        ) : null}
-      </table>
-
-      <Link to="/db">Back</Link>
+    <div className="container">
+      <div className="main-content">
+        <h1>Combat Arts List:</h1>
+        <h2>Sword Combat Arts:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Sword")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {swordArtList ? (
+            <tbody>
+              {Object.values(swordArtList).map((art, index) => (
+                <tr key={index}>
+                  <td>{art.ID}</td>
+                  <td>{art.Name}</td>
+                  <td>{art.Might}</td>
+                  <td>{art.Hit}</td>
+                  <td>{art.Critical}</td>
+                  <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
+                  <td>{art.DurabilityCost}</td>
+                  <td>{art.Description ? art.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>Lance Combat Arts:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Lance")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {lanceArtList ? (
+            <tbody>
+              {Object.values(lanceArtList).map((art, index) => (
+                <tr key={index}>
+                  <td>{art.ID}</td>
+                  <td>{art.Name}</td>
+                  <td>{art.Might}</td>
+                  <td>{art.Hit}</td>
+                  <td>{art.Critical}</td>
+                  <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
+                  <td>{art.DurabilityCost}</td>
+                  <td>{art.Description ? art.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>Axe Combat Arts:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Axe")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {axeArtList ? (
+            <tbody>
+              {Object.values(axeArtList).map((art, index) => (
+                <tr key={index}>
+                  <td>{art.ID}</td>
+                  <td>{art.Name}</td>
+                  <td>{art.Might}</td>
+                  <td>{art.Hit}</td>
+                  <td>{art.Critical}</td>
+                  <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
+                  <td>{art.DurabilityCost}</td>
+                  <td>{art.Description ? art.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>Bow Combat Arts:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Bow")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {bowArtList ? (
+            <tbody>
+              {Object.values(bowArtList).map((art, index) => (
+                <tr key={index}>
+                  <td>{art.ID}</td>
+                  <td>{art.Name}</td>
+                  <td>{art.Might}</td>
+                  <td>{art.Hit}</td>
+                  <td>{art.Critical}</td>
+                  <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
+                  <td>{art.DurabilityCost}</td>
+                  <td>{art.Description ? art.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+        <h2>Brawling Combat Arts:</h2>
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th>ID:</th>
+              {headers.map((header, index) => (
+                <th key={index}>
+                  {header.key !== "Range" ? (
+                    <button onClick={() => handleSort(header.key, "Brawl")}>
+                      {header.label}
+                    </button>
+                  ) : (
+                    `${header.label}`
+                  )}
+                </th>
+              ))}
+              <th>Description</th>
+            </tr>
+          </thead>
+          {brawlArtList ? (
+            <tbody>
+              {Object.values(brawlArtList).map((art, index) => (
+                <tr key={index}>
+                  <td>{art.ID}</td>
+                  <td>{art.Name}</td>
+                  <td>{art.Might}</td>
+                  <td>{art.Hit}</td>
+                  <td>{art.Critical}</td>
+                  <td>{displayRange(art.RangeMin, art.RangeMax)}</td>
+                  <td>{art.DurabilityCost}</td>
+                  <td>{art.Description ? art.Description : "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          ) : null}
+        </table>
+      </div>
     </div>
   );
 }

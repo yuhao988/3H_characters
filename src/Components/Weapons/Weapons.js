@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+
 import React, { useState, useEffect } from "react";
 import SwordList from "./Sword";
 import LanceList from "./Lance";
@@ -79,58 +79,60 @@ export default function Weapon() {
   };
 
   return (
-    <div>
-      <h1>Weapon page</h1>
+    <div className="container">
+      <div className="main-content">
+        <h1>Weapon page</h1>
 
-      <div>
-        <h2>
-          <button onClick={() => openModal(1)}>Swords</button>
-        </h2>
+        <div>
+          <h2>
+            <button onClick={() => openModal(1)}>Swords</button>
+          </h2>
 
-        <div className="modal">
-          <SwordList
-            isOpen={isSword}
-            onClose={() => closeModal(1)}
+          <div className="modal">
+            <SwordList
+              isOpen={isSword}
+              onClose={() => closeModal(1)}
+              weaponList={weaponList}
+            />
+          </div>
+
+          <h2>
+            <button onClick={() => openModal(2)}>Lances</button>
+          </h2>
+          <div className="modal">
+            <LanceList
+              isOpen={isLance}
+              onClose={() => closeModal(2)}
+              weaponList={weaponList}
+            />
+          </div>
+          <h2>
+            <button onClick={() => openModal(3)}>Axes</button>
+          </h2>
+          <AxeList
+            isOpen={isAxe}
+            onClose={() => closeModal(3)}
+            weaponList={weaponList}
+          />
+          <h2>
+            <button onClick={() => openModal(4)}>Bows</button>
+          </h2>
+          <BowList
+            isOpen={isBow}
+            onClose={() => closeModal(4)}
+            weaponList={weaponList}
+          />
+          <h2>
+            <button onClick={() => openModal(5)}>Gauntlets</button>
+          </h2>
+          <BrawlList
+            isOpen={isBrawl}
+            onClose={() => closeModal(5)}
             weaponList={weaponList}
           />
         </div>
-
-        <h2>
-          <button onClick={() => openModal(2)}>Lances</button>
-        </h2>
-        <div className="modal">
-          <LanceList
-            isOpen={isLance}
-            onClose={() => closeModal(2)}
-            weaponList={weaponList}
-          />
-        </div>
-        <h2>
-          <button onClick={() => openModal(3)}>Axes</button>
-        </h2>
-        <AxeList
-          isOpen={isAxe}
-          onClose={() => closeModal(3)}
-          weaponList={weaponList}
-        />
-        <h2>
-          <button onClick={() => openModal(4)}>Bows</button>
-        </h2>
-        <BowList
-          isOpen={isBow}
-          onClose={() => closeModal(4)}
-          weaponList={weaponList}
-        />
-        <h2>
-          <button onClick={() => openModal(5)}>Gauntlets</button>
-        </h2>
-        <BrawlList
-          isOpen={isBrawl}
-          onClose={() => closeModal(5)}
-          weaponList={weaponList}
-        />
+        
       </div>
-      <Link to="/db">Back</Link>
     </div>
   );
 }
