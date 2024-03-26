@@ -25,10 +25,11 @@ export function attackHit(userStat, weaponStat) {
 }
 export function attackCritical(userStat, weaponStat) {
   const crit =
-    weaponStat.Crit +
+    weaponStat.Critical +
     parseInt(
       (misc.fixToInt(userStat.finalDex) + misc.fixToInt(userStat.finalLck)) / 2
     );
+    
   return crit;
 }
 export function attackSpeed(userStat, weaponStat) {
@@ -67,7 +68,7 @@ export function artHit(userStat, weaponStat, artStat) {
 }
 export function artCrit(userStat, weaponStat, artStat) {
   let crit =
-    weaponStat.Crit +
+    weaponStat.Critical +
     parseInt(
       (misc.fixToInt(userStat.finalDex) + misc.fixToInt(userStat.finalLck)) / 2
     );

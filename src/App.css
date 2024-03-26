@@ -54,22 +54,23 @@
   margin-top: 10px;
 }
 
-.stats-table th, .stats-table td {
+.stats-table th,
+.stats-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
 }
 
-
 .container {
   display: flex;
-  background-color: blueviolet;
- 
+  background-color: rgb(57, 19, 92);
+  color: rgb(247, 251, 231);
 }
 
 .sidebar {
   width: 200px;
   background-color: #7fdbe6;
+  color: rgb(80, 3, 3);
   padding: 10px;
   position: fixed;
   top: 0;
@@ -83,5 +84,4 @@
   margin-right: 10px;
   width: calc(100% - 160px); /* Adjust width to occupy remaining space */
   min-height: 100vh; /* Make sure main content extends to viewport height */
-  
 }

@@ -1,34 +1,96 @@
 //import { Link, useLocation, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import * as statCalc from "../Calculations/StatGrowth";
+import { url_weapon } from "../Weapons/Weapons";
+import { url_spell } from "../Spells/Spells";
+import { url_CA } from "../CombatArt/CombatArtList";
 
 export default function DamageAnalysis(props) {
   const { charStat } = props;
-  //   const [weaponUsed, setWeaponUsed] = useState("");
-  //   const [combatArt, setCombatArt] = useState("");
+  const [weaponList, setWeaponList] = useState("");
+  const [weapontypeID, setWeapontypeID] = useState(0);
+  const [filterdWeaponList, setFilterdWeaponList] = useState("");
+  const [weaponUsed, setWeaponUsed] = useState("");
+  const [combatArtList, setCombatArtList] = useState("");
+  const [filterdCAList, setFilterdCAList] = useState("");
+  const [spellList, setSpellList] = useState("");
+  const [filterdSpellList, setFilteredSpellList] = useState("");
 
-  //   useEffect(()=>{
+  useEffect(() => {
+    const fetchWeaponData = async () => {
+      try {
+        const response = await fetch(url_weapon, {
+          method: "GET",
+        });
 
-  //   },[weaponUsed,combatArt])
-  const ironSword = {
-    ID: 1,
-    Might: 6,
-    StrMag: true,
-    Hit: 90,
-    Crit: 0,
-    Weight: 5,
+        const data = await response.json();
+        setWeaponList(data);
+      } catch (error) {
+        console.error("Error fetching character data: ", error.message);
+      }
+    };
+    const fetchSpellData = async () => {
+      try {
+        const response = await fetch(url_spell, {
+          method: "GET",
+        });
+
+        const data = await response.json();
+        setSpellList(data);
+      } catch (error) {
+        console.error("Error fetching character data: ", error.message);
+      }
+    };
+    const fetchCAData = async () => {
+      try {
+        const response = await fetch(url_CA, {
+          method: "GET",
+        });
+
+        const data = await response.json();
+        setCombatArtList(data);
+      } catch (error) {
+        console.error("Error fetching character data: ", error.message);
+      }
+    };
+    if (!weaponList || !combatArtList || !spellList) {
+      fetchCAData();
+      fetchWeaponData();
+      fetchSpellData();
+    }
+  }, [weaponList, combatArtList, spellList]);
+
+  const handleWeaponTypeChange = (e) => {
+    const typeID = parseInt(e.target.value);
+    const filterList = Object.values(weaponList).filter(
+      (weapon) => weapon.TypeID === typeID
+    );
+
+    setWeapontypeID(typeID);
+    setFilterdWeaponList(filterList);
   };
-  const levinSword = {
-    ID: 17,
-    Might: 9,
-    StrMag: false,
-    Hit: 70,
-    Crit: 0,
-    Weight: 9,
+
+  const filterCombatArt = (weapon) => {
+    
+    const filterList = Object.values(combatArtList).filter(
+      (art) =>      
+        parseInt(art.TypeID) === weapon.TypeID &&
+        art.Description && 
+        (!art.Description.includes("only") ||
+        art.Description.includes(weapon.Name))
+    );
+    
+    setFilterdCAList(filterList);
   };
 
-  const sunder = { ID: 4, Might: 4, StrMag: true, Critical: 3 };
-  const soulblade = { ID: 13, Might: 2, StrMag: false, Hit: 10 };
+  const handleWeaponChange = (e) => {
+    const selectedWeaponID = parseInt(e.target.value); // Parse the value to integer
+    const selectedWeapon = weaponList.find(
+      (weapon) => weapon.ID === selectedWeaponID
+    );
+    filterCombatArt(selectedWeapon);
+    setWeaponUsed(selectedWeapon); // Set the selected weapon object
+  };
 
   const headers = [
     { key: "Damage", label: "Damage" },
@@ -37,69 +99,76 @@ export default function DamageAnalysis(props) {
     { key: "AS", label: "Attack Speed" },
   ];
 
-  const dmg = statCalc.attackDamage(charStat, ironSword);
-  const hit = statCalc.attackHit(charStat, ironSword);
-  const crit = statCalc.attackCritical(charStat, ironSword);
-  const as = statCalc.attackSpeed(charStat, ironSword);
+  const calcWeaponOutcome = (charStat, weaponStat) => {
+    const dmg = statCalc.attackDamage(charStat, weaponStat);
+    const hit = statCalc.attackHit(charStat, weaponStat);
+    const crit = statCalc.attackCritical(charStat, weaponStat);
+    const as = statCalc.attackSpeed(charStat, weaponStat);
 
-  const dmg2 = statCalc.attackDamage(charStat, levinSword);
-  const hit2 = statCalc.attackHit(charStat, levinSword);
-  const crit2 = statCalc.attackCritical(charStat, levinSword);
-  const as2 = statCalc.attackSpeed(charStat, levinSword);
+    return [dmg, hit, crit, as];
+  };
 
-  const outputValue1 = [dmg, hit, crit, as];
-  const outputValue2 = [dmg2, hit2, crit2, as2];
-
-  const artDmg = statCalc.artAttack(charStat, ironSword, sunder);
-  const artHit = statCalc.artHit(charStat, ironSword, sunder);
-  const artCrit = statCalc.artCrit(charStat, ironSword, sunder);
-
-  const artDmg2 = statCalc.artAttack(charStat, ironSword, soulblade);
-  const artHit2 = statCalc.artHit(charStat, ironSword, soulblade);
-  const artCrit2 = statCalc.artCrit(charStat, ironSword, soulblade);
-
-  const artDmg3 = statCalc.artAttack(charStat, levinSword, sunder);
-  const artHit3 = statCalc.artHit(charStat, levinSword, sunder);
-  const artCrit3 = statCalc.artCrit(charStat, levinSword, sunder);
-
-  const artDmg4 = statCalc.artAttack(charStat, levinSword, soulblade);
-  const artHit4 = statCalc.artHit(charStat, levinSword, soulblade);
-  const artCrit4 = statCalc.artCrit(charStat, levinSword, soulblade);
-
-  const artValue1 = [artDmg, artHit, artCrit];
-  const artValue2 = [artDmg2, artHit2, artCrit2];
-  const artValue3 = [artDmg3, artHit3, artCrit3];
-  const artValue4 = [artDmg4, artHit4, artCrit4];
+  const calcCAOutcome = (charStat, weaponStat, artStat) => {
+    const artDmg = statCalc.artAttack(charStat, weaponStat, artStat);
+    const artHit = statCalc.artHit(charStat, weaponStat, artStat);
+    const artCrit = statCalc.artCrit(charStat, weaponStat, artStat);
+    return [artDmg, artHit, artCrit];
+  };
 
   return (
     <div>
       Analysis here:
-      <h2>Select Weapon:</h2>
-      <table className="stats-table">
-        <thead>
-          <tr>
-            <th></th>{" "}
-            {headers.map((header, index) => (
-              <th key={index}>{header.label}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>Iron Sword:</th>
-            {outputValue1.map((num, index) => (
-              <td key={index}>{num}</td>
-            ))}
-          </tr>
-          <tr>
-            <th>Levin Sword:</th>
-            {outputValue2.map((num, index) => (
-              <td key={index}>{num}</td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
-      <h3>Select Combat Art (Optional)</h3>
+      <h2>Select Weapon Type:</h2>
+      <select value={weapontypeID} onChange={handleWeaponTypeChange}>
+        <option key="Sword" value="1">
+          Sword
+        </option>
+        <option key="Lance" value="2">
+          Lance
+        </option>
+        <option key="Axe" value="3">
+          Axe
+        </option>
+        <option key="Bow" value="3">
+          Bow
+        </option>
+        <option key="Brawl" value="5">
+          Gauntlets
+        </option>
+      </select>
+      <h3>Select Weapon:</h3>
+      {filterdWeaponList ? (
+        <select value={weaponUsed.ID} onChange={handleWeaponChange}>
+          {Object.values(filterdWeaponList).map((weapon, index) => (
+            <option key={index} value={weapon.ID}>
+              {weapon.Name}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <p>First select a weapon type</p>
+      )}
+      {weaponUsed ? (
+        <table className="stats-table">
+          <thead>
+            <tr>
+              <th></th>{" "}
+              {headers.map((header, index) => (
+                <th key={index}>{header.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>{weaponUsed.Name}:</th>
+              {calcWeaponOutcome(charStat, weaponUsed).map((num, index) => (
+                <td key={index}>{num}</td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      ) : null}
+      <h3>Possible Combat Art Damage output:</h3>
       <table className="stats-table">
         <thead>
           <tr>
@@ -110,30 +179,14 @@ export default function DamageAnalysis(props) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th>Iron Sunder</th>
-            {artValue1.map((num, index) => (
-              <td key={index}>{num}</td>
-            ))}
-          </tr>
-          <tr>
-            <th>Iron Soulblade</th>
-            {artValue2.map((num, index) => (
-              <td key={index}>{num}</td>
-            ))}
-          </tr>
-          <tr>
-            <th>Levin Sunder</th>
-            {artValue3.map((num, index) => (
-              <td key={index}>{num}</td>
-            ))}
-          </tr>
-          <tr>
-            <th>Levin Soulblade</th>
-            {artValue4.map((num, index) => (
-              <td key={index}>{num}</td>
-            ))}
-          </tr>
+          {Object.values(filterdCAList).map((CA) => (
+            <tr>
+              <th>{CA.Name}</th>
+              {calcCAOutcome(charStat, weaponUsed, CA).map((num, index) => (
+                <td key={index}>{num}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
