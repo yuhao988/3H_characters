@@ -1,6 +1,5 @@
 import React from "react";
-//import { Link } from "react-router-dom";
-import Character from "./Components/Characters/Characters";
+
 import "./App.css";
 
 function Home() {
@@ -9,7 +8,9 @@ function Home() {
       
       <div className="main-content">
         
-          <Character />
+        <h1>Fire Emblem Three Houses</h1>
+        <p>Damage analysis and character/Item data</p>
+        <p>Click on different parts on the left</p>
           
         
       </div>

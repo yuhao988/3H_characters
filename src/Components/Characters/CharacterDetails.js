@@ -4,11 +4,12 @@ import { useCharacter } from "../../CharacterContext";
 import { url_char } from "./Characters";
 import { averageResultStat } from "../Calculations/StatGrowth";
 import DamageAnalysis from "./DamagAnalysis";
+import BoonBaneTable from "./BoonBane";
 
 export default function CharacterDetail() {
   const { selectedCharacter, setCharacter } = useCharacter();
   const [minLevel, setMinLevel] = useState(1);
-  const [targetLevel, setTargetLevel] = useState(99);
+  const [targetLevel, setTargetLevel] = useState(30);
   const [isAnalysis, setIsAnalysis] = useState(false);
   const [finalStats, setFinalStats] = useState(null);
   const { characterName } = useParams();
@@ -261,12 +262,13 @@ export default function CharacterDetail() {
           />
         </div>
       ) : null}
+      <BoonBaneTable character={selectedCharacter}/>
       {renderTable()}
-      {/* {console.log(selectedCharacter.Name)} */}
+      <br/>
       <button onClick={toggleAnalysis}>Go to damage analysis</button>
 
       {isAnalysis ? <DamageAnalysis charStat={finalStats} /> : null}
-
+<br/>
       <Link to="/characters">Back to characters page</Link>
     </div>
   );

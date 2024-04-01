@@ -183,6 +183,7 @@ export default function Character() {
             </div>
           </div>
         ) : null}
+        <br/>
       </div>
     </div>
   );

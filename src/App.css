@@ -84,4 +84,5 @@
   margin-right: 10px;
   width: calc(100% - 160px); /* Adjust width to occupy remaining space */
   min-height: 100vh; /* Make sure main content extends to viewport height */
+  padding: 10px;
 }
