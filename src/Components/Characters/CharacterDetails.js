@@ -6,6 +6,9 @@ import { averageResultStat } from "../Calculations/StatGrowth";
 import DamageAnalysis from "./DamagAnalysis";
 import BoonBaneTable from "./BoonBane";
 
+const URL = process.env.REACT_APP_BACKEND_URL;
+const url_skill_list = `${URL}/charskilllist`;
+
 export default function CharacterDetail() {
   const { selectedCharacter, setCharacter } = useCharacter();
   const [minLevel, setMinLevel] = useState(1);
@@ -13,6 +16,7 @@ export default function CharacterDetail() {
   const [isAnalysis, setIsAnalysis] = useState(false);
   const [finalStats, setFinalStats] = useState(null);
   const { characterName } = useParams();
+  const [skillList, setSkillList] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,9 +40,28 @@ export default function CharacterDetail() {
         console.error("Error fetching character data: ", error.message);
       }
     };
+    const fetchList = async () => {
+      try {
+        const response = await fetch(
+          `${url_skill_list}/char/${selectedCharacter.ID}`,
+          {
+            method: "GET",
+          }
+        );
+
+        const data = await response.json();
+
+        setSkillList(data);
+      } catch (error) {
+        console.error("Error fetching character data: ", error.message);
+      }
+    };
 
     if (characterName && !selectedCharacter) {
       fetchData();
+    }
+    if (selectedCharacter && !skillList) {
+      fetchList();
     }
     if (selectedCharacter) {
       const baseLevel = parseInt(selectedCharacter.BaseLv, 10);
@@ -95,7 +118,14 @@ export default function CharacterDetail() {
       };
       setFinalStats(newFinalStats);
     }
-  }, [characterName, selectedCharacter, setCharacter, targetLevel, minLevel]);
+  }, [
+    characterName,
+    selectedCharacter,
+    setCharacter,
+    targetLevel,
+    minLevel,
+    skillList,
+  ]);
 
   // Handler for changing the target level
   const handleTargetLevelChange = (e) => {
@@ -262,13 +292,14 @@ export default function CharacterDetail() {
           />
         </div>
       ) : null}
-      <BoonBaneTable character={selectedCharacter}/>
+
+      <BoonBaneTable character={selectedCharacter} boonList={skillList} />
       {renderTable()}
-      <br/>
+      <br />
       <button onClick={toggleAnalysis}>Go to damage analysis</button>
 
-      {isAnalysis ? <DamageAnalysis charStat={finalStats} /> : null}
-<br/>
+      {isAnalysis ? <DamageAnalysis charStat={finalStats} skillList={skillList}/> : null}
+      <br />
       <Link to="/characters">Back to characters page</Link>
     </div>
   );

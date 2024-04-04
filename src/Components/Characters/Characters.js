@@ -28,6 +28,7 @@ export default function Character() {
       fetchData();
     }
   }, [characterList]);
+  
   const onClick = (character) => {
     // Use the context to set the selected character
     setCharacter(character);

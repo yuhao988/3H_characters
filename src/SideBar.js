@@ -27,6 +27,9 @@ function Sidebar() {
         <li>
           <Link to="/combat_arts">combat arts</Link>
         </li>
+        <li><Link to="/class_base">class base</Link></li>
+        <li><Link to="/class_bonus">class bonus</Link></li>
+        <li><Link to="/class_growth">class growth</Link></li>
       </ul>
     </div>
   );

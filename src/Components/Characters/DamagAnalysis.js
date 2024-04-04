@@ -6,7 +6,7 @@ import { url_spell } from "../Spells/Spells";
 import { url_CA } from "../CombatArt/CombatArtList";
 
 export default function DamageAnalysis(props) {
-  const { charStat } = props;
+  const { charStat, skillList } = props;
   const [weaponList, setWeaponList] = useState("");
   const [weapontypeID, setWeapontypeID] = useState(0);
   const [filterdWeaponList, setFilterdWeaponList] = useState("");
@@ -15,6 +15,10 @@ export default function DamageAnalysis(props) {
   const [filterdCAList, setFilterdCAList] = useState("");
   const [spellList, setSpellList] = useState("");
   const [filterdSpellList, setFilteredSpellList] = useState("");
+
+  const commonCA = [6, 23, 37, 66];
+  const charCA = skillList.CAList;
+  const combineCA = commonCA.concat(charCA);
 
   useEffect(() => {
     const fetchWeaponData = async () => {
@@ -37,6 +41,13 @@ export default function DamageAnalysis(props) {
 
         const data = await response.json();
         setSpellList(data);
+        const filter = data.filter(
+          (spell) =>
+            skillList.SpellList.includes(spell.ID) &&
+            spell.Type !== "Non-damage"
+        );
+
+        setFilteredSpellList(filter);
       } catch (error) {
         console.error("Error fetching character data: ", error.message);
       }
@@ -48,7 +59,8 @@ export default function DamageAnalysis(props) {
         });
 
         const data = await response.json();
-        setCombatArtList(data);
+        const filter = data.filter((CA) => combineCA.includes(CA.ID));
+        setCombatArtList(filter);
       } catch (error) {
         console.error("Error fetching character data: ", error.message);
       }
@@ -58,7 +70,7 @@ export default function DamageAnalysis(props) {
       fetchWeaponData();
       fetchSpellData();
     }
-  }, [weaponList, combatArtList, spellList]);
+  }, [weaponList, combatArtList, spellList, skillList, combineCA]);
 
   const handleWeaponTypeChange = (e) => {
     const typeID = parseInt(e.target.value);
@@ -71,15 +83,15 @@ export default function DamageAnalysis(props) {
   };
 
   const filterCombatArt = (weapon) => {
-    
     const filterList = Object.values(combatArtList).filter(
-      (art) =>      
+      (art) =>
         parseInt(art.TypeID) === weapon.TypeID &&
-        art.Description && 
-        (!art.Description.includes("only") ||
-        art.Description.includes(weapon.Name))
+        ((art.Description &&
+          (!art.Description.includes("only") ||
+            art.Description.includes(weapon.Name))) ||
+          !art.Description)
     );
-    
+
     setFilterdCAList(filterList);
   };
 
@@ -115,6 +127,15 @@ export default function DamageAnalysis(props) {
     return [artDmg, artHit, artCrit];
   };
 
+  const calcSpellOutcome = (charStat, spellStat) => {
+    const dmg = statCalc.spellDamage(charStat, spellStat);
+    const hit = statCalc.spellHit(charStat, spellStat);
+    const crit = statCalc.spellCritical(charStat, spellStat);
+    const as = statCalc.spellAS(charStat, spellStat);
+
+    return [dmg, hit, crit, as];
+  };
+
   return (
     <div>
       Analysis here:
@@ -129,7 +150,7 @@ export default function DamageAnalysis(props) {
         <option key="Axe" value="3">
           Axe
         </option>
-        <option key="Bow" value="3">
+        <option key="Bow" value="4">
           Bow
         </option>
         <option key="Brawl" value="5">
@@ -154,7 +175,7 @@ export default function DamageAnalysis(props) {
             <tr>
               <th></th>{" "}
               {headers.map((header, index) => (
-                <th key={index}>{header.label}</th>
+                <th key={"header1 " + index}>{header.label}</th>
               ))}
             </tr>
           </thead>
@@ -169,6 +190,7 @@ export default function DamageAnalysis(props) {
         </table>
       ) : null}
       <h3>Possible Combat Art Damage output:</h3>
+      {/* {console.log(combineCA)} */}
       <table className="stats-table">
         <thead>
           <tr>
@@ -183,6 +205,27 @@ export default function DamageAnalysis(props) {
             <tr>
               <th>{CA.Name}</th>
               {calcCAOutcome(charStat, weaponUsed, CA).map((num, index) => (
+                <td key={index}>{num}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <h3>All damaging spells:</h3>
+      <table className="stats-table">
+        <thead>
+          <tr>
+            <th></th>
+            {headers.map((header, index) => (
+              <th key={"header3 " + index}>{header.label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {Object.values(filterdSpellList).map((spell) => (
+            <tr>
+              <th>{spell.Name}</th>
+              {calcSpellOutcome(charStat, spell).map((num, index) => (
                 <td key={index}>{num}</td>
               ))}
             </tr>

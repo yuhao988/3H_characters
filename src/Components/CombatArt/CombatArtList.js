@@ -90,6 +90,7 @@ export default function CombatArt() {
       setSortOrder("asc");
       // Perform sorting based on the selected column
       sortedCombatArt.sort((a, b) => {
+        
         // Adjust the sorting logic based on the data type of the column
         if (column === "Name") {
           return a.Name.localeCompare(b.Name);

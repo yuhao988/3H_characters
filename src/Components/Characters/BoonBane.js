@@ -5,16 +5,15 @@ import bt from "../Images/budding.png";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 export const url_types = `${URL}/skill_types`;
-const url_skill_list = `${URL}/charskilllist`;
 
 export default function BoonBaneTable(props) {
-  const { character } = props;
+  const { character, boonList } = props;
 
   const [skillList, setSkillList] = useState("");
-  const [boonList, setBoonList] = useState("");
-  const [boons, setBoons] = useState([]);
-  const [banes, setBanes] = useState([]);
-  const [buddingTalent, setBuddingtalent] = useState([]);
+
+  const [boons, setBoons] = useState("");
+  const [banes, setBanes] = useState("");
+  const [buddingTalent, setBuddingtalent] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,29 +30,15 @@ export default function BoonBaneTable(props) {
       }
     };
 
-    const fetchList = async () => {
-      try {
-        const response = await fetch(`${url_skill_list}/char/${character.ID}`, {
-          method: "GET",
-        });
-
-        const data = await response.json();
-
-        setBoonList(data);
-        setBoons(data.Boons);
-        setBanes(data.Banes);
-        setBuddingtalent(data.Budding);
-      } catch (error) {
-        console.error("Error fetching character data: ", error.message);
-      }
-    };
     if (!skillList) {
       fetchData();
     }
-    if (character && !boonList) {
-      fetchList();
+    if ((!boons || !banes || !buddingTalent) && boonList) {
+      setBoons(boonList.Boons);
+      setBanes(boonList.Banes);
+      setBuddingtalent(boonList.Budding);
     }
-  }, [skillList, character, boonList]);
+  }, [skillList, boons, banes, buddingTalent, boonList]);
 
   const renderTable = () => {
     const intArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -78,7 +63,7 @@ export default function BoonBaneTable(props) {
         <tbody>
           <tr>
             {intArray.map((i) => (
-              <th>
+              <th key={i}>
                 {boons.includes(i) ? (
                   <img src={boon} width="25px" height="25px" alt="boon" />
                 ) : null}
@@ -96,10 +81,5 @@ export default function BoonBaneTable(props) {
     );
   };
 
-  return (
-    <div>
-      
-      {character ? <div>{renderTable()}</div> : null}
-    </div>
-  );
+  return <div>{character ? <div>{renderTable()}</div> : null}</div>;
 }
