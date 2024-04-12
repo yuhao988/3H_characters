@@ -1,11 +1,11 @@
-//import { useNavigate } from "react-router-dom";
+import ClassDetail from "./ClassDetail";
 import React, { useState, useEffect } from "react";
 //import { useCharacter } from "../../CharacterContext";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 export const url_class = `${URL}/classes`;
 
-export default function ClassList() {
+export default function ClassBase() {
   const [classList, setClassList] = useState("");
   const [startList, setStartList] = useState("");
   const [beginList, setBeginList] = useState("");
@@ -16,9 +16,9 @@ export default function ClassList() {
   const [otherList, setOtherList] = useState("");
   const [classBase, setClassBase] = useState("");
   const [sortedColumn, setSortedColumn] = useState("");
-  const [sortOrder, setSortOrder] = useState("asc");
-  //const { setCharacter } = useCharacter();
-  //const navigate = useNavigate();
+  const [sortOrder, setSortOrder] = useState("des");
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedClass, setSelectedClass]=useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,6 +77,7 @@ export default function ClassList() {
     { key: 7, label: "Resistance" },
     { key: 8, label: "Charm" },
     { key: 9, label: "Movement" },
+    { key: 10, label: "Total" },
   ];
   const intArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -116,13 +117,16 @@ export default function ClassList() {
     } else {
       // If a new column is clicked, set it as the sorted column and default to ascending order
       setSortedColumn(column);
-      setSortOrder("asc");
+      setSortOrder("des");
       // Perform sorting based on the selected column
       sortedClassList.sort((a, b) => {
         // Adjust the sorting logic based on the data type of the column
-
+        if (column === 10) {
+          return totalStat(b.ID) - totalStat(a.ID);
+        } else {
+          return b.Base[column] - a.Base[column];
+        }
         // For numerical values, you can convert them to numbers before comparison
-        return a.Base[column] - b.Base[column];
       });
     }
     // Update the state with the sorted art list
@@ -159,6 +163,23 @@ export default function ClassList() {
     return <td>{cl.base[index]}</td>;
   };
 
+  const totalStat = (id) => {
+    const cl = Object.values(classBase).find((cls) => cls.ID === id);
+    let total = 0;
+    for (let i = 0; i < 9; i++) {
+      total += cl.base[i];
+    }
+    return total;
+  };
+
+  const openModal = (classStat) => {
+    setSelectedClass(classStat);
+    setIsOpen(true);
+  };
+  const closeModal=()=>{
+    setIsOpen(false);
+  }
+
   return (
     <div className="container">
       <div className="main-content">
@@ -170,7 +191,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C1+${index}`}>
                   <button onClick={() => handleSort(header.key, "Start")}>
                     {header.label}
                   </button>
@@ -181,10 +202,13 @@ export default function ClassList() {
           {startList ? (
             <tbody>
               {Object.values(startList).map((cl, index) => (
-                <tr key={index}>
+                <tr key={`start+${index}`}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
@@ -197,7 +221,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C2+${index}`}>
                   <button onClick={() => handleSort(header.key, "Begin")}>
                     {header.label}
                   </button>
@@ -210,8 +234,11 @@ export default function ClassList() {
               {Object.values(beginList).map((cl, index) => (
                 <tr key={index}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
@@ -224,7 +251,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C3+${index}`}>
                   <button onClick={() => handleSort(header.key, "Interm")}>
                     {header.label}
                   </button>
@@ -237,8 +264,11 @@ export default function ClassList() {
               {Object.values(intermList).map((cl, index) => (
                 <tr key={index}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
@@ -251,7 +281,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C4+${index}`}>
                   <button onClick={() => handleSort(header.key, "Advance")}>
                     {header.label}
                   </button>
@@ -264,8 +294,11 @@ export default function ClassList() {
               {Object.values(advanceList).map((cl, index) => (
                 <tr key={index}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
@@ -278,7 +311,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C5+${index}`}>
                   <button onClick={() => handleSort(header.key, "DLC")}>
                     {header.label}
                   </button>
@@ -291,8 +324,11 @@ export default function ClassList() {
               {Object.values(dlcList).map((cl, index) => (
                 <tr key={index}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
@@ -305,7 +341,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C6+${index}`}>
                   <button onClick={() => handleSort(header.key, "Master")}>
                     {header.label}
                   </button>
@@ -318,8 +354,11 @@ export default function ClassList() {
               {Object.values(masterList).map((cl, index) => (
                 <tr key={index}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
@@ -332,7 +371,7 @@ export default function ClassList() {
               <th>ID:</th>
               <th>Class:</th>
               {headers.map((header, index) => (
-                <th key={index}>
+                <th key={`C7+${index}`}>
                   <button onClick={() => handleSort(header.key, "Special")}>
                     {header.label}
                   </button>
@@ -345,13 +384,19 @@ export default function ClassList() {
               {Object.values(otherList).map((cl, index) => (
                 <tr key={index}>
                   <td>{cl.ID}</td>
-                  <td>{cl.Name}</td>
+                  <td>
+                    <button onClick={()=>openModal(cl)}>{cl.Name}</button>
+                  </td>
                   {intArray.map((int) => displayBase(cl.ID, int))}
+                  <td>{totalStat(cl.ID)}</td>
                 </tr>
               ))}
             </tbody>
           ) : null}
         </table>
+        <ClassDetail isOpen={isOpen}
+            onClose={() => closeModal()}
+            classStat={selectedClass} />
       </div>
     </div>
   );

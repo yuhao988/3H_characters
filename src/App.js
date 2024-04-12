@@ -11,7 +11,9 @@ import CharacterDetail from "./Components/Characters/CharacterDetails";
 import { CharacterProvider } from "./CharacterContext";
 import Spell from "./Components/Spells/Spells";
 import CombatArt from "./Components/CombatArt/CombatArtList";
-import ClassList from "./Components/Classes/Class";
+import ClassBase from "./Components/Classes/ClassBase";
+import ClassBonus from "./Components/Classes/ClassBonus";
+import ClassGrowth from "./Components/Classes/ClassGrowth";
 
 function App() {
   useEffect(() => {
@@ -33,9 +35,9 @@ function App() {
             <Route path="/weapons" element={<Weapon />} />
             <Route path="/spells" element={<Spell />} />
             <Route path="/combat_arts" element={<CombatArt />} />
-            <Route path="/class_base" element={<ClassList />} />
-            <Route path="/class_bonus" element={<ClassList />} />
-            <Route path="/class_growth" element={<ClassList />} />
+            <Route path="/class_base" element={<ClassBase />} />
+            <Route path="/class_bonus" element={<ClassBonus />} />
+            <Route path="/class_growth" element={<ClassGrowth />} />
             <Route path="/*" element={<Error />} />
           </Routes>
         </div>
