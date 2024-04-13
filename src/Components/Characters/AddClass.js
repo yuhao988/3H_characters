@@ -7,8 +7,11 @@ import "react-range-slider-input/dist/style.css";
 export default function AddClass(prop) {
   const { isOpen, onClose, charDetail } = prop;
   const [classList, setClassList] = useState("");
-  const [slider1, setSlider1] = useState([20, 80]); // Set initial values for the sliders
-  const [slider2, setSlider2] = useState([20, 80]);
+  const [sliders, setSliders] = useState([
+    { min: 0, max: 99, class: { Name: "" } },
+  ]);
+  const [count, setCount] = useState(1);
+  const [selectedClass, setSelectedClass] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,57 +29,130 @@ export default function AddClass(prop) {
     if (!classList) {
       fetchData();
     }
-  });
+    if (charDetail && sliders[0].min === 0) {
+      setSliders([{ min: charDetail.BaseLv, class: { Name: "Class1" } }]);
+    }
+  }, [classList, charDetail, sliders]);
 
   const handleCloseModal = () => {
     onClose();
   };
 
-  // const {
-  //   HP,
-  //   Strength,
-  //   Magic,
-  //   Dexterity,
-  //   Speed,
-  //   Luck,
-  //   Defence,
-  //   Resistance,
-  //   Charm,
-  //   HpGrowth,
-  //   StrGrowth,
-  //   MagGrowth,
-  //   DexGrowth,
-  //   SpdGrowth,
-  //   LckGrowth,
-  //   DefGrowth,
-  //   ResGrowth,
-  //   ChaGrowth,
-  // } = charDetail;
+  const handleSliderChange = (index, value) => {
+    const newSliders = [...sliders];
+    newSliders[index] = {
+      min: value[0],
+      max: value[1],
+      class: sliders[index].class,
+    };
+    if (value[0] >= value[1]) {
+      value[0] = value[1] - 1;
+    }
 
-  const handleSlider1Change = (value) => {
-    const [min, max] = value;
-    const newSlider1 = [min, max];
-    const newSlider2 = [...slider2];
+    switch (sliders[index].class.Rank) {
+      case "Beginner":
+        if (value[0] <= 5) {
+          value[0] = 5;
+        }
+        break;
+      case "Intermediate":
+        if (value[0] <= 10) {
+          value[0] = 10;
+        }
+        break;
+      case "Advanced":
+      case "DLC":
+        if (value[0] <= 20) {
+          value[0] = 20;
+        }
+        break;
+      case "Master":
+        if (value[0] <= 30) {
+          value[0] = 30;
+        }
+        break;
+      default:
+        break;
+    }
 
-    // Ensure slider A's end value is smaller than slider B's start value
+    if (index > 0 && value[0] <= newSliders[index - 1].min) {
+      value[0] = newSliders[index - 1].min + 1;
+    }
+    if (
+      index < newSliders.length - 1){
+        switch (sliders[index+1].class.Rank) {
+          case "Beginner":
+            if (value[1] <= 5) {
+              value[1] = 5;
+            }
+            break;
+          case "Intermediate":
+            if (value[1] <= 10) {
+              value[1] = 10;
+            }
+            break;
+          case "Advanced":
+          case "DLC":
+            if (value[1] <= 20) {
+              value[1] = 20;
+            }
+            break;
+          case "Master":
+            if (value[1] <= 30) {
+              value[1] = 30;
+            }
+            break;
+          default:
+            break;
+        }
+      }
 
-    newSlider2[0] = newSlider1[1];
+    if (
+      index < newSliders.length - 1 &&
+      value[1] >= newSliders[index + 1].max
+    ) {
+      value[1] = newSliders[index + 1].max - 1;
+    }
 
-    setSlider1(newSlider1);
-    setSlider2(newSlider2);
+    newSliders[index] = {
+      min: value[0],
+      max: value[1],
+      class: sliders[index].class,
+    };
+
+    if (index > 0) {
+      newSliders[index - 1].max = value[0];
+    }
+    if (newSliders[index + 1]) {
+      newSliders[index + 1].min = value[1];
+    }
+
+    setSliders(newSliders);
   };
 
-  const handleSlider2Change = (value) => {
-    const [min, max] = value;
-    const newSlider2 = [min, max];
-    const newSlider1 = [...slider1];
+  const handleAddSlider = () => {
+    if (selectedClass) {
+      const oldMax = sliders[count - 1].max;
+      setSliders([...sliders, { min: oldMax, max: 99, class: selectedClass }]);
+      setCount(count + 1);
+    }
+  };
 
-    // Ensure slider B's start value is greater than slider A's end value
+  const handleRemoveSlider = (index) => {
+    const newSliders = [...sliders];
+    newSliders.splice(index, 1);
+    setSliders(newSliders);
+    setCount(count - 1);
+  };
 
-    newSlider1[1] = newSlider2[0];
+  const handleSetClass = (e) => {
+    if (e) {
+      const className = Object.values(classList).filter(
+        (cls) => cls.Name === e
+      );
 
-    setSlider1(newSlider1);
-    setSlider2(newSlider2);
+      setSelectedClass(className[0]);
+    }
   };
 
   return (
@@ -90,26 +166,52 @@ export default function AddClass(prop) {
         </button>
       </div>
       <div>
+        {sliders.map((slider, index) => (
+          <div key={index}>
+            <br />
+            <label>{slider.class.Name}:</label>
+
+            <RangeSlider
+              min={1}
+              max={99}
+              value={[slider.min, slider.max]}
+              onInput={(value) => handleSliderChange(index, value)}
+              formatLabel={(value) => `${value}%`}
+            />
+            <span style={{ marginLeft: "10px" }}>Lv {slider.min}</span>
+            <span style={{ marginLeft: "1px" }}>-{slider.max}</span>
+            <br />
+            {count !== 1 ? (
+              <button onClick={() => handleRemoveSlider(index)}>
+                Remove Class
+              </button>
+            ) : null}
+          </div>
+        ))}
         <div>
-          <label>Slider A:</label>
-          <RangeSlider
-            min={1}
-            max={99}
-            value={slider1}
-            onInput={handleSlider1Change}
-            formatLabel={(value) => `${value}%`}
-          />
+          <br />
+          {classList ? (
+            <select
+              value={selectedClass.Name}
+              onChange={(e) => handleSetClass(e.target.value)}
+            >
+              <option value={false}>-Select a class-</option>
+              {Object.values(classList).map((cls) => (
+                <option value={cls.Name}>{cls.Name}</option>
+              ))}
+            </select>
+          ) : (
+            <select
+              value={selectedClass}
+              onChange={(e) => setSelectedClass(e.target.value)}
+            >
+              <option value="null">Null</option>
+            </select>
+          )}
+
+          <button onClick={handleAddSlider}>Add Class</button>
         </div>
-        <div>
-          <label>Slider B:</label>
-          <RangeSlider
-            min={1}
-            max={99}
-            value={slider2}
-            onInput={handleSlider2Change}
-            formatLabel={(value) => `${value}%`}
-          />
-        </div>
+        <br />
       </div>
     </Modal>
   );
