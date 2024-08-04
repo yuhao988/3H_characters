@@ -13,7 +13,7 @@ const url_skill_list = `${URL}/charskilllist`;
 export default function CharacterDetail() {
   const { selectedCharacter, setCharacter } = useCharacter();
   const [minLevel, setMinLevel] = useState(1);
- // const [targetLevel, setTargetLevel] = useState(30);
+  // const [targetLevel, setTargetLevel] = useState(30);
   const [isAnalysis, setIsAnalysis] = useState(false);
   const [finalStats, setFinalStats] = useState(null);
   const { characterName } = useParams();
@@ -120,14 +120,7 @@ export default function CharacterDetail() {
       // };
       // setFinalStats(newFinalStats);
     }
-  }, [
-    characterName,
-    selectedCharacter,
-    setCharacter,
-    
-    minLevel,
-    skillList,
-  ]);
+  }, [characterName, selectedCharacter, setCharacter, minLevel, skillList]);
 
   // Handler for changing the target level
   // const handleTargetLevelChange = (e) => {
@@ -248,13 +241,15 @@ export default function CharacterDetail() {
               ))}
               <td>{totalStat(growthStats)}</td>
             </tr>
-            <tr>
-              <th>Applied Stats:</th>
-              {/* {Object.values(finalStats).map((stat, index) => (
-                <td key={index}>{stat}</td>
-              ))}
-              <td>{totalStat(finalStats)}</td> */}
-            </tr>
+            {finalStats ? (
+              <tr>
+                <th>Applied Stats:</th>
+                {Object.values(finalStats).map((stat, index) => (
+                  <td key={index}>{stat}</td>
+                ))}
+                <td>{totalStat(finalStats)}</td>
+              </tr>
+            ) : null}
           </tbody>
         </table>
       </div>
@@ -272,8 +267,12 @@ export default function CharacterDetail() {
   const openModal = () => {
     setIsAddClass(true);
   };
-  const closeModal = () => {
+  const closeModal = (stat) => {
+    //setFinalStats();
     setIsAddClass(false);
+    if (stat !== null) {
+      setFinalStats(stat);
+    }
   };
 
   return (

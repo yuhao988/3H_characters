@@ -1,11 +1,12 @@
 import * as misc from "./Miscellaneous";
 
 export function averageResultStat(base, growth_rate, levels) {
-  const numericBase = parseInt(base, 10);
+  const numericBase = parseFloat(base, 10);
   const numericGrowthRate = parseInt(growth_rate, 10);
   const numericLevels = parseInt(levels, 10);
   const result = numericBase + (numericGrowthRate / 100) * numericLevels;
-  const roundedResult = result.toFixed(1);
+  const roundedResult = result.toFixed(2);
+  
   return parseFloat(roundedResult); // Convert back to a floating-point number
 }
 
@@ -116,6 +117,7 @@ export function artCrit(userStat, weaponStat, artStat) {
 }
 
 export function spellDamage(userStat, spellStat) {
+  console.log(userStat)
   const dmg = misc.fixToInt(userStat.finalMag) + parseInt(spellStat.Might);
   return dmg;
 }
